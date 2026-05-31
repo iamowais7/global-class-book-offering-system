@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParentsController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const parents_service_1 = require("./parents.service");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
 const roles_guard_1 = require("../common/guards/roles.guard");
@@ -40,6 +41,7 @@ let ParentsController = class ParentsController {
 exports.ParentsController = ParentsController;
 __decorate([
     (0, common_1.Get)('offerings'),
+    (0, swagger_1.ApiOperation)({ summary: 'Browse all available offerings (sessions in your local timezone)' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.User]),
@@ -47,6 +49,7 @@ __decorate([
 ], ParentsController.prototype, "getAvailableOfferings", null);
 __decorate([
     (0, common_1.Post)('bookings'),
+    (0, swagger_1.ApiOperation)({ summary: 'Book an offering — enforces conflict detection and concurrency safety' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -55,12 +58,15 @@ __decorate([
 ], ParentsController.prototype, "bookOffering", null);
 __decorate([
     (0, common_1.Get)('bookings'),
+    (0, swagger_1.ApiOperation)({ summary: 'View all my bookings with session times in my timezone' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], ParentsController.prototype, "getMyBookings", null);
 exports.ParentsController = ParentsController = __decorate([
+    (0, swagger_1.ApiTags)('Parents'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('api/parents'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(user_role_enum_1.UserRole.PARENT),

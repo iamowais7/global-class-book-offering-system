@@ -10,12 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookOfferingDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class BookOfferingDto {
     offeringId;
 }
 exports.BookOfferingDto = BookOfferingDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', description: 'UUID of the offering to book' }),
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
 ], BookOfferingDto.prototype, "offeringId", void 0);

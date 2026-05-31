@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddSessionsDto = exports.SessionItemDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class SessionItemDto {
@@ -18,11 +19,13 @@ class SessionItemDto {
 }
 exports.SessionItemDto = SessionItemDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: '2026-06-07T18:00:00', description: 'Session start time in teacher\'s local timezone' }),
     (0, class_validator_1.IsDateString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], SessionItemDto.prototype, "startTime", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: '2026-06-07T19:00:00', description: 'Session end time in teacher\'s local timezone' }),
     (0, class_validator_1.IsDateString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
@@ -32,6 +35,7 @@ class AddSessionsDto {
 }
 exports.AddSessionsDto = AddSessionsDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({ type: [SessionItemDto], description: 'List of sessions to add' }),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ValidateNested)({ each: true }),

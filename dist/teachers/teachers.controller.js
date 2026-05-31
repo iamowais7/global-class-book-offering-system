@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TeachersController = void 0;
 const common_1 = require("@nestjs/common");
+const swagger_1 = require("@nestjs/swagger");
 const teachers_service_1 = require("./teachers.service");
 const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
 const roles_guard_1 = require("../common/guards/roles.guard");
@@ -41,6 +42,7 @@ let TeachersController = class TeachersController {
 exports.TeachersController = TeachersController;
 __decorate([
     (0, common_1.Post)('offerings'),
+    (0, swagger_1.ApiOperation)({ summary: 'Create a new offering/batch for a course' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -49,6 +51,7 @@ __decorate([
 ], TeachersController.prototype, "createOffering", null);
 __decorate([
     (0, common_1.Post)('offerings/:id/sessions'),
+    (0, swagger_1.ApiOperation)({ summary: 'Add sessions to an offering (times in teacher\'s timezone)' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
     __param(2, (0, common_1.Body)()),
@@ -58,12 +61,15 @@ __decorate([
 ], TeachersController.prototype, "addSessions", null);
 __decorate([
     (0, common_1.Get)('offerings'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all my offerings with sessions (upcoming count included)' }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], TeachersController.prototype, "getMyOfferings", null);
 exports.TeachersController = TeachersController = __decorate([
+    (0, swagger_1.ApiTags)('Teachers'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)('api/teachers'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)(user_role_enum_1.UserRole.TEACHER),

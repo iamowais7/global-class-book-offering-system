@@ -27,18 +27,31 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
-                useFactory: (config) => ({
-                    type: 'postgres',
-                    host: config.get('DB_HOST', 'localhost'),
-                    port: config.get('DB_PORT', 5432),
-                    username: config.get('DB_USERNAME', 'postgres'),
-                    password: config.get('DB_PASSWORD', 'postgres'),
-                    database: config.get('DB_NAME', 'class_booking'),
-                    entities: [user_entity_1.User, offering_entity_1.Offering, session_entity_1.Session, booking_entity_1.Booking],
-                    synchronize: config.get('NODE_ENV') !== 'production',
-                    logging: config.get('NODE_ENV') === 'development',
-                    timezone: 'UTC',
-                }),
+                useFactory: (config) => {
+                    const databaseUrl = config.get('DATABASE_URL');
+                    if (databaseUrl) {
+                        return {
+                            type: 'postgres',
+                            url: databaseUrl,
+                            entities: [user_entity_1.User, offering_entity_1.Offering, session_entity_1.Session, booking_entity_1.Booking],
+                            synchronize: true,
+                            ssl: { rejectUnauthorized: false },
+                            timezone: 'UTC',
+                        };
+                    }
+                    return {
+                        type: 'postgres',
+                        host: config.get('DB_HOST', 'localhost'),
+                        port: config.get('DB_PORT', 5432),
+                        username: config.get('DB_USERNAME', 'postgres'),
+                        password: config.get('DB_PASSWORD', '1234'),
+                        database: config.get('DB_NAME', 'class_booking'),
+                        entities: [user_entity_1.User, offering_entity_1.Offering, session_entity_1.Session, booking_entity_1.Booking],
+                        synchronize: config.get('NODE_ENV') !== 'production',
+                        logging: config.get('NODE_ENV') === 'development',
+                        timezone: 'UTC',
+                    };
+                },
             }),
             auth_module_1.AuthModule,
             teachers_module_1.TeachersModule,
